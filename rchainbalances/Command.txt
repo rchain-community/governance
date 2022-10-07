@@ -1,0 +1,1 @@
+sed 's/,.*$//' 20220719-RevAddresses_All.txt | ./balances.sh | tee 20221006-RevBalances.txt

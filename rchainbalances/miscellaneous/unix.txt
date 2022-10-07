@@ -1,0 +1,90 @@
+chmod +x balances.sh 
+curl "https://raw.githubusercontent.com/r-publishing/rdrive-testnet-launch/master/testnet-launch.wallets.txt"
+wget "https://raw.githubusercontent.com/r-publishing/rdrive-testnet-launch/master/testnet-launch.wallets.txt"
+apt-install jq
+echo $PATH
+mkdir /c/Users/holde/bin
+curl -L -o /c/users/holde/bin/jq.exe https://github.com/stedolan/jq/releases/latest/download/jq-win64.exe
+./jq.exe
+jq --help
+ls -l
+sed 's/,.*$//' RPC-20220719-addresses-corrected.txt | ./balances.sh 
+sed 's/,.*$//' RPC-20220719-addresses-corrected.txt | ./balances.sh 
+cat /tmp/rho
+./tmp/rho 11112NBTK5hK9Jj9nu1P3TGTKXQX3V6sYmQGDhGZcvivweeWPD6QJq
+vi ./balances-hack.sh 
+curl -k -s  -d @"/tmp/rho" https://observer.services.mainnet.rchain.coop/api/explore-deploy
+k=5
+echo '
+		match ["'$k'"] {
+		  [myGovRevAddr] => {
+			new    // use Explore to see result at return
+			return,
+			lookup(`rho:registry:lookup`),
+			RevVaultCh,
+			vaultCh,
+			balanceCh
+			in {
+			  lookup!(`rho:rchain:revVault`, *RevVaultCh) |
+			  for (@(_, RevVault) <- RevVaultCh) {
+				@RevVault!("findOrCreate", myGovRevAddr, *vaultCh) |
+				for (@(true, vault) <- vaultCh) {
+				  @vault!("balance", *balanceCh) |
+				  for (@balance <- balanceCh) {
+					return!(["#define", "$myBalance", balance])|
+					return!("${rev}.${fraction}" %% {
+					  "rev": balance/100000000,
+					  "fraction": ("${num}"%%{
+						"num": balance%100000000+100000000}).slice(1,9)
+					  }
+					  )
+					}
+				  }
+				}
+			  }
+
+			}
+		  }
+	 '
+echo '
+		match ["'$k'"] {
+		  [myGovRevAddr] => {
+			new    // use Explore to see result at return
+			return,
+			lookup(`rho:registry:lookup`),
+			RevVaultCh,
+			vaultCh,
+			balanceCh
+			in {
+			  lookup!(`rho:rchain:revVault`, *RevVaultCh) |
+			  for (@(_, RevVault) <- RevVaultCh) {
+				@RevVault!("findOrCreate", myGovRevAddr, *vaultCh) |
+				for (@(true, vault) <- vaultCh) {
+				  @vault!("balance", *balanceCh) |
+				  for (@balance <- balanceCh) {
+					return!(["#define", "$myBalance", balance])|
+					return!("${rev}.${fraction}" %% {
+					  "rev": balance/100000000,
+					  "fraction": ("${num}"%%{
+						"num": balance%100000000+100000000}).slice(1,9)
+					  }
+					  )
+					}
+				  }
+				}
+			  }
+
+			}
+		  }
+' > /tmp/rho
+sed 's/,.*$//' RPC-20220719-addresses-corrected.txt | ./balances.sh 
+vi RPC-20220719-addresses-corrected.txt
+bash -x ./balances-hack.sh 
+sed 's/,.*$//' RPC-20220719-addresses-corrected.txt | ./balances.sh 
+sed 's/,.*$//' RPC-20220719-addresses-corrected.txt | ./balances.sh | tee 20220930-revbalances.txt
+sed 's/,.*$//' RPC-20220719-addresses-corrected.txt | ./balances.sh > 20220930-revbalances.txt
+sed 's/,.*$//' RPC-20220719-addresses-corrected_9598-13940.txt | ./balances.sh >> 20220930-revbalances.txt
+sed 's/,.*$//' RPC-20220719-addresses-corrected_9598-13940.txt | ./balances.sh >> 20220930-revbalances1.txt
+sed 's/,.*$//' RPC-20220719-addresses-corrected_9598-13940.txt | ./balances.sh >> 20220930-revbalances2.txt
+cat 20220930-revbalances1.txt 20220930-revbalances2.txt > 20220930-revbalances.txt
+history > unix1.txt
